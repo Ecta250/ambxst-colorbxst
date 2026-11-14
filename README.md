@@ -26,7 +26,7 @@ Settings > Theme > **Terminal** (below Colors). Click a colour to pick a palette
 ## Install
 
 ```sh
-ambxst mods install ~/.local/src/ambxst-colorbxst
+ambxst mods install https://github.com/Ecta250/ambxst-colorbxst.git
 ambxst mods enable ecta250.colorbxst
 ```
 
