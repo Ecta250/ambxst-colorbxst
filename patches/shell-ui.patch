@@ -1,0 +1,231 @@
+diff --git a/modules/bar/systray/SystrayMenuItem.qml b/modules/bar/systray/SystrayMenuItem.qml
+index 6bc474d7ab1e575b21f8522c3e489baf9be053f7..15f25d2f47554e575305ae4a9fd9639df9ac8803 100644
+--- a/modules/bar/systray/SystrayMenuItem.qml
++++ b/modules/bar/systray/SystrayMenuItem.qml
+@@ -7,6 +7,12 @@ import qs.config
+ Button {
+     id: root
+ 
++    // Colorbxst: item text follows the "Popup" variant, hover the "Primary" one.
++    readonly property color tcText: Styling.srItem("popup")
++    readonly property color tcHoverText: Styling.srItem("primary")
++    readonly property var tcPrimaryStops: Config.theme.srPrimary.gradient
++    readonly property color tcHoverBg: (tcPrimaryStops && tcPrimaryStops.length > 0) ? Config.resolveColor(tcPrimaryStops[0][0]) : Styling.srItem("overprimary")
++
+     property string textStr: ""
+ 
+     // Clean text logic from ContextMenu.qml
+@@ -40,7 +46,7 @@ Button {
+     background: Rectangle {
+         color: {
+             if (root.isSeparator) return "transparent"
+-            return root.hovered ? Styling.srItem("overprimary") : "transparent"
++            return root.hovered ? root.tcHoverBg : "transparent"
+         }
+         radius: Styling.radius(0)
+ 
+@@ -48,7 +54,7 @@ Button {
+         Rectangle {
+             visible: root.isSeparator
+             height: 1
+-            color: Colors.surfaceBright
++            color: Qt.rgba(root.tcText.r, root.tcText.g, root.tcText.b, 0.2)
+             anchors.centerIn: parent
+             width: parent.width - 16
+         }
+@@ -77,7 +83,7 @@ Button {
+                 height: 14
+                 radius: 3
+                 color: root.checkState === Qt.Unchecked ? "transparent" : Colors.primary
+-                border.color: root.checkState === Qt.Unchecked ? Colors.outline : Colors.primary
++                border.color: root.checkState === Qt.Unchecked ? Qt.rgba(root.tcText.r, root.tcText.g, root.tcText.b, 0.6) : Colors.primary
+                 border.width: 1.5
+ 
+                 Text {
+@@ -98,7 +104,7 @@ Button {
+                 height: 14
+                 radius: 7
+                 color: "transparent"
+-                border.color: root.checkState === Qt.Checked ? Colors.primary : Colors.outline
++                border.color: root.checkState === Qt.Checked ? Colors.primary : Qt.rgba(root.tcText.r, root.tcText.g, root.tcText.b, 0.6)
+                 border.width: 1.5
+ 
+                 Rectangle {
+@@ -125,7 +131,7 @@ Button {
+                     text: root.iconSource
+                     font.family: Icons.font
+                     font.pixelSize: 14
+-                    color: root.hovered ? Colors.overPrimary : Colors.overBackground
++                    color: root.hovered ? root.tcHoverText : root.tcText
+                     horizontalAlignment: Text.AlignHCenter
+                     verticalAlignment: Text.AlignVCenter
+                 }
+@@ -145,7 +151,7 @@ Button {
+         Text {
+             Layout.fillWidth: true
+             text: root.cleanText
+-            color: root.hovered ? Colors.overPrimary : Colors.overBackground
++            color: root.hovered ? root.tcHoverText : root.tcText
+             font.family: Config.theme.font
+             font.pixelSize: Styling.fontSize(0)
+             elide: Text.ElideRight
+@@ -156,7 +162,7 @@ Button {
+         Text {
+             visible: root.hasSubmenu
+             text: root.expanded ? "\u25BE" : "\u25B8"
+-            color: root.hovered ? Colors.overPrimary : Colors.overBackground
++            color: root.hovered ? root.tcHoverText : root.tcText
+             font.pixelSize: Styling.fontSize(0)
+             verticalAlignment: Text.AlignVCenter
+         }
+diff --git a/modules/components/OptionsMenu.qml b/modules/components/OptionsMenu.qml
+index ddf0d0df894f308d3e98b23c4aedb21e76d62836..1b3dbb3b62913357eff4778d9bbb565c0ce3b306 100644
+--- a/modules/components/OptionsMenu.qml
++++ b/modules/components/OptionsMenu.qml
+@@ -43,15 +43,17 @@ Menu {
+     property int itemHeight: 36
+ 
+     // Propiedades de estilo del menú
++    // Colorbxst: follow the "Popup" and "Primary" variants from Settings.
+     property color backgroundColor: Colors.background
+     property color borderColor: Colors.surfaceBright
+     property int borderWidth: 2
++    readonly property var primaryStops: Config.theme.srPrimary.gradient
+     property int menuRadius: Config.roundness
+ 
+     // Propiedades de highlight por defecto
+-    property color defaultHighlightColor: Styling.srItem("overprimary")
+-    property color defaultTextColor: Colors.overPrimary
+-    property color normalTextColor: Colors.overBackground
++    property color defaultHighlightColor: (primaryStops && primaryStops.length > 0) ? Config.resolveColor(primaryStops[0][0]) : Styling.srItem("overprimary")
++    property color defaultTextColor: Styling.srItem("primary")
++    property color normalTextColor: Styling.srItem("popup")
+ 
+     // Propiedades internas
+     property int hoveredIndex: -1
+@@ -90,12 +92,10 @@ Menu {
+         implicitWidth: root.menuWidth
+ 
+         // Fondo principal
+-        Rectangle {
++        StyledRect {
+             anchors.fill: parent
+-            color: root.backgroundColor
++            variant: "popup"
+             radius: root.menuRadius
+-            border.width: root.borderWidth
+-            border.color: root.borderColor
+         }
+ 
+         // Highlight animado que sigue al hover
+@@ -180,7 +180,7 @@ Menu {
+                 anchors.fill: parent
+                 anchors.topMargin: isSeparatorItem ? 4 : 0
+                 anchors.bottomMargin: isSeparatorItem ? 4 : 0
+-                color: isSeparatorItem ? Colors.surface : "transparent"
++                color: isSeparatorItem ? Qt.rgba(root.normalTextColor.r, root.normalTextColor.g, root.normalTextColor.b, 0.1) : "transparent"
+                 radius: isSeparatorItem ? 0 : (root.menuRadius > 6 ? root.menuRadius - 6 : 0)
+             }
+ 
+diff --git a/modules/components/StyledToolTip.qml b/modules/components/StyledToolTip.qml
+index 8f4d5165b0ebda8a99a173c68e8eaa791c2f3c0d..fbb95079917db46f11e515761e50bd07d9327334 100644
+--- a/modules/components/StyledToolTip.qml
++++ b/modules/components/StyledToolTip.qml
+@@ -27,7 +27,7 @@ ToolTip {
+ 
+         Text {
+             text: root.tooltipText
+-            color: Colors.overBackground
++            color: Styling.srItem("popup")
+             font.pixelSize: Config.theme.fontSize
+             font.weight: Font.Bold
+             font.family: Config.theme.font
+@@ -36,7 +36,7 @@ ToolTip {
+         Text {
+             text: root.desciription
+             visible: root.desciription.length > 0
+-            color: Colors.overBackground
++            color: Styling.srItem("popup")
+             font.pixelSize: Config.theme.fontSize - 2
+             font.family: Config.theme.font
+         }
+diff --git a/modules/shell/osd/OSD.qml b/modules/shell/osd/OSD.qml
+index f8bb863223bd09885bd1d8b02779109bd2843a7b..5f01c7f409fa05d33612654441d62d0088caf104 100644
+--- a/modules/shell/osd/OSD.qml
++++ b/modules/shell/osd/OSD.qml
+@@ -68,7 +68,7 @@ PanelWindow {
+                     }
+                     font.family: Icons.font
+                     font.pixelSize: 22
+-                    color: Colors.overBackground
++                    color: osdRect.item
+                     Layout.alignment: Qt.AlignVCenter
+ 
+                     rotation: GlobalStates.osdIndicator === "brightness" ? (root.osdValue * 180) : 0
+@@ -113,7 +113,7 @@ PanelWindow {
+                             font.family: Config.theme.font
+                             font.pixelSize: 15
+                             font.bold: false
+-                            color: Colors.overBackground
++                            color: osdRect.item
+                             Layout.alignment: Qt.AlignBottom
+                         }
+ 
+@@ -126,7 +126,7 @@ PanelWindow {
+                             font.family: Config.theme.font
+                             font.pixelSize: 15
+                             font.bold: false
+-                            color: Colors.overBackground
++                            color: osdRect.item
+                             Layout.alignment: Qt.AlignBottom
+                         }
+                     }
+@@ -140,7 +140,7 @@ PanelWindow {
+                         thickness: 3
+                         handleSpacing: 0
+                         progressColor: root.osdMuted ? Colors.outline : Styling.srItem("overprimary")
+-                        backgroundColor: Qt.rgba(Colors.overBackground.r, Colors.overBackground.g, Colors.overBackground.b, 0.2)
++                        backgroundColor: Qt.rgba(osdRect.item.r, osdRect.item.g, osdRect.item.b, 0.2)
+                     }
+                 }
+             }
+diff --git a/modules/widgets/dashboard/widgets/calendar/Calendar.qml b/modules/widgets/dashboard/widgets/calendar/Calendar.qml
+index 9b9e47b9f9da8dc111d8c9a1c9b25574449b6d36..9d88fda4043096cab76e92e75449ead903e7b2f0 100644
+--- a/modules/widgets/dashboard/widgets/calendar/Calendar.qml
++++ b/modules/widgets/dashboard/widgets/calendar/Calendar.qml
+@@ -169,6 +169,7 @@ Item {
+                         }
+ 
+                         Separator {
++                            color: Styling.srItem("internalbg")
+                             Layout.fillWidth: true
+                             Layout.leftMargin: 8
+                             Layout.rightMargin: 8
+diff --git a/modules/widgets/dashboard/widgets/calendar/CalendarDayButton.qml b/modules/widgets/dashboard/widgets/calendar/CalendarDayButton.qml
+index 4a99c8043d87e2bccd381cb257963c7bf799bf3c..8f5e4344a6b18b20748c3dac0ab46c2309209309 100644
+--- a/modules/widgets/dashboard/widgets/calendar/CalendarDayButton.qml
++++ b/modules/widgets/dashboard/widgets/calendar/CalendarDayButton.qml
+@@ -35,15 +35,18 @@ Rectangle {
+             font.weight: Font.Bold
+             font.pixelSize: Styling.fontSize(-2)
+             font.family: Config.defaultFont
++            // Colorbxst: follow the "Internal BG" variant the grid sits on;
++            // secondary text is the same colour, dimmed (mod setting dimOpacity).
+             color: {
+                 if (isToday === 1)
+                     return Styling.srItem("primary");
+-                if (bold) {
+-                    return isCurrentDayOfWeek ? Colors.overBackground : Colors.outline;
+-                }
++                const c = Styling.srItem("internalbg");
++                const dim = Qt.rgba(c.r, c.g, c.b, Colorbxst.dimOpacity);
++                if (bold)
++                    return isCurrentDayOfWeek ? c : dim;
+                 if (isToday === 0)
+-                    return Colors.overSurface;
+-                return Colors.surfaceBright;
++                    return c;
++                return dim;
+             }
+ 
+             Behavior on color {

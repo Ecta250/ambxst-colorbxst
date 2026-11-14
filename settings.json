@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Axenide/Ambxst/main/docs/mods/settings.schema.json",
+  "version": 1,
+  "fields": [
+    {
+      "key": "dimOpacity",
+      "label": "Dimmed text opacity",
+      "description": "Opacity of secondary text (calendar days outside the month, other weekdays). It uses the same colour as the main text of the surface.",
+      "type": "number",
+      "default": 0.45,
+      "minimum": 0.1,
+      "maximum": 1,
+      "restartRequired": false
+    }
+  ]
+}

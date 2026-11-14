@@ -1,0 +1,192 @@
+diff --git a/modules/theme/DiscordGenerator.qml b/modules/theme/DiscordGenerator.qml
+index f2c8533cb7443ecbadf86b9c00824fb3c6a07cbc..0874da0a83614df109551dfe5032bf85bbdd2b80 100644
+--- a/modules/theme/DiscordGenerator.qml
++++ b/modules/theme/DiscordGenerator.qml
+@@ -2,6 +2,7 @@ import QtQuick
+ import Quickshell
+ import Quickshell.Io
+ import qs.config
++import qs.modules.theme
+ 
+ QtObject {
+     id: root
+@@ -9,6 +10,8 @@ QtObject {
+     function generate(Colors) {
+         if (!Colors) return
+ 
++        // Colorbxst: background and text follow the "Background" variant.
++        Colors = Colorbxst.appColors(Colors)
+         const toRGB = (c) => {
+             return `${Math.round(c.r * 255)},${Math.round(c.g * 255)},${Math.round(c.b * 255)}`
+         }
+diff --git a/modules/theme/GtkGenerator.qml b/modules/theme/GtkGenerator.qml
+index c1e737c605a7ef8e3454ce7f8525b602a30259ff..c8289bc0c9d9c7333d1fda478001bb3ef522ae5e 100644
+--- a/modules/theme/GtkGenerator.qml
++++ b/modules/theme/GtkGenerator.qml
+@@ -2,6 +2,7 @@ import QtQuick
+ import Quickshell
+ import Quickshell.Io
+ import qs.config
++import qs.modules.theme
+ 
+ QtObject {
+     id: root
+@@ -9,6 +10,8 @@ QtObject {
+     function generate(Colors) {
+         if (!Colors) return
+ 
++        // Colorbxst: background and text follow the "Background" variant.
++        Colors = Colorbxst.appColors(Colors)
+         const fmt = (c) => c.toString()
+         const toRgba = (c, a) => `rgba(${Math.round(c.r * 255)}, ${Math.round(c.g * 255)}, ${Math.round(c.b * 255)}, ${a})`
+ 
+diff --git a/modules/theme/NvChadGenerator.qml b/modules/theme/NvChadGenerator.qml
+index 6f5e9007f0ead060428595b3d4ecec48f1225ba7..d4dcfa7acb00f8e1918ba1a9044f070834572439 100644
+--- a/modules/theme/NvChadGenerator.qml
++++ b/modules/theme/NvChadGenerator.qml
+@@ -1,12 +1,15 @@
+ import QtQuick
+ import Quickshell
+ import Quickshell.Io
++import qs.modules.theme
+ 
+ QtObject {
+     id: root
+ 
+     function generate(Colors) {
+         if (!Colors) return
++        // Colorbxst: background and text follow the "Background" variant.
++        Colors = Colorbxst.appColors(Colors)
+ 
+         const fmt = (c) => c.toString()
+         const isDark = (c) => {
+diff --git a/modules/theme/PywalGenerator.qml b/modules/theme/PywalGenerator.qml
+index 221c87dcc357b700239dbcda3194dd7bddcdc2a0..fbec82023b605ad83e0ce7f5452645ea84c16466 100644
+--- a/modules/theme/PywalGenerator.qml
++++ b/modules/theme/PywalGenerator.qml
+@@ -1,6 +1,7 @@
+ import QtQuick
+ import Quickshell
+ import Quickshell.Io
++import qs.modules.theme
+ import qs.modules.globals
+ 
+ QtObject {
+@@ -12,6 +13,8 @@ QtObject {
+             console.error("PywalGenerator: Colors is null/undefined")
+             return
+         }
++        // Colorbxst: background and text follow the "Background" variant.
++        Colors = Colorbxst.appColors(Colors)
+ 
+         try {
+             const fmt = (c) => c.toString()
+@@ -46,22 +49,24 @@ QtObject {
+             }
+ 
+             // 1. ~/.cache/wal/colors
+-            let c0 = fmt(Colors.background)       
+-            let c1 = fmt(Colors.surfaceVariant)   
+-            let c2 = fmt(Colors.red)              
+-            let c3 = fmt(Colors.lightRed)         
+-            let c4 = fmt(Colors.green)            
+-            let c5 = fmt(Colors.lightGreen)       
+-            let c6 = fmt(Colors.yellow)           
+-            let c7 = fmt(Colors.lightYellow)      
+-            let c8 = fmt(Colors.primary)          
+-            let c9 = fmt(Colors.lightBlue)        
+-            let c10 = fmt(Colors.magenta)         
+-            let c11 = fmt(Colors.lightMagenta)    
+-            let c12 = fmt(Colors.cyan)            
+-            let c13 = fmt(Colors.lightCyan)       
+-            let c14 = fmt(Colors.overSurface)     
+-            let c15 = fmt(Colors.overSurface)     
++            // Colorbxst: the 16 colours are the Terminal palette (Settings > Theme > Terminal).
++            const term = Colorbxst.terminal()
++            let c0 = term.palette[0]
++            let c1 = term.palette[1]
++            let c2 = term.palette[2]
++            let c3 = term.palette[3]
++            let c4 = term.palette[4]
++            let c5 = term.palette[5]
++            let c6 = term.palette[6]
++            let c7 = term.palette[7]
++            let c8 = term.palette[8]
++            let c9 = term.palette[9]
++            let c10 = term.palette[10]
++            let c11 = term.palette[11]
++            let c12 = term.palette[12]
++            let c13 = term.palette[13]
++            let c14 = term.palette[14]
++            let c15 = term.palette[15]
+ 
+             let colorsContent = [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15].join("\n")
+ 
+@@ -70,27 +75,27 @@ QtObject {
+                 "wallpaper": image,
+                 "alpha": "100",
+                 "special": {
+-                    "background": darken(Colors.background, 5.0),
+-                    "foreground": fmt(Colors.overBackground),
+-                    "cursor": fmt(Colors.surfaceBright)
++                    "background": term.background,
++                    "foreground": term.foreground,
++                    "cursor": term.cursor
+                 },
+                 "colors": {
+-                    "color0": fmt(Colors.background),
+-                    "color1": fmt(Colors.surfaceVariant),
+-                    "color2": fmt(Colors.secondaryFixedDim),
+-                    "color3": fmt(Colors.outline),
+-                    "color4": fmt(Colors.overSurfaceVariant),
+-                    "color5": fmt(Colors.overSurface),
+-                    "color6": fmt(Colors.overSurface),
+-                    "color7": fmt(Colors.surface),
+-                    "color8": darken(Colors.error, 10.0),
+-                    "color9": fmt(Colors.tertiary),
+-                    "color10": fmt(Colors.primary),
+-                    "color11": fmt(Colors.tertiaryFixed),
+-                    "color12": fmt(Colors.primaryFixedDim),
+-                    "color13": fmt(Colors.surfaceBright),
+-                    "color14": fmt(Colors.overPrimaryContainer),
+-                    "color15": fmt(Colors.overSurface)
++                    "color0": c0,
++                    "color1": c1,
++                    "color2": c2,
++                    "color3": c3,
++                    "color4": c4,
++                    "color5": c5,
++                    "color6": c6,
++                    "color7": c7,
++                    "color8": c8,
++                    "color9": c9,
++                    "color10": c10,
++                    "color11": c11,
++                    "color12": c12,
++                    "color13": c13,
++                    "color14": c14,
++                    "color15": c15
+                 }
+             }
+             const jsonContent = JSON.stringify(jsonColors, null, 2)
+diff --git a/modules/theme/QtCtGenerator.qml b/modules/theme/QtCtGenerator.qml
+index f0b1da73f794b5ad0a44ac918b8e9df802f77b41..e69eb0a6441604222d665322e89cf9003507676a 100644
+--- a/modules/theme/QtCtGenerator.qml
++++ b/modules/theme/QtCtGenerator.qml
+@@ -2,6 +2,7 @@ import QtQuick
+ import Quickshell
+ import Quickshell.Io
+ import qs.config
++import qs.modules.theme
+ 
+ QtObject {
+     id: root
+@@ -9,6 +10,8 @@ QtObject {
+     function generate(Colors) {
+         if (!Colors) return
+ 
++        // Colorbxst: background and text follow the "Background" variant.
++        Colors = Colorbxst.appColors(Colors)
+         // Helper to format color
+         const fmt = (c) => c.toString()
+ 

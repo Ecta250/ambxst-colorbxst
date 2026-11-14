@@ -1,0 +1,52 @@
+diff --git a/modules/bar/BarContent.qml b/modules/bar/BarContent.qml
+index c8bd6e5edb9d7949d989ebcb93e92d66ad8a950b..1d722fc3f1895a6ee28111e4e6b910cf4b1fcccd 100644
+--- a/modules/bar/BarContent.qml
++++ b/modules/bar/BarContent.qml
+@@ -439,7 +439,7 @@ Item {
+                                     text: Icons.pin
+                                     font.family: Icons.font
+                                     font.pixelSize: 18
+-                                    color: root.pinned ? pinButtonBg.item : (pinButton.pressed ? Colors.background : (Styling.srItem("overprimary") || Colors.foreground))
++                                    color: root.pinned ? pinButtonBg.item : (pinButton.pressed ? Colors.background : (Styling.srItem("overprimary") || Colors.overBackground))
+                                     horizontalAlignment: Text.AlignHCenter
+                                     verticalAlignment: Text.AlignVCenter
+ 
+@@ -693,7 +693,7 @@ Item {
+                                             text: Icons.pin
+                                             font.family: Icons.font
+                                             font.pixelSize: 18
+-                                            color: root.pinned ? pinButtonVBg.item : (pinButtonV.pressed ? Colors.background : (Styling.srItem("overprimary") || Colors.foreground))
++                                            color: root.pinned ? pinButtonVBg.item : (pinButtonV.pressed ? Colors.background : (Styling.srItem("overprimary") || Colors.overBackground))
+                                             horizontalAlignment: Text.AlignHCenter
+                                             verticalAlignment: Text.AlignVCenter
+ 
+diff --git a/modules/components/ToggleButton.qml b/modules/components/ToggleButton.qml
+index e6bcbbf4e287b61cf4d51e8b95ca50f130c8b066..0d7561e90040c0ab808a3648eafe045b6b65889f 100644
+--- a/modules/components/ToggleButton.qml
++++ b/modules/components/ToggleButton.qml
+@@ -65,7 +65,7 @@ Button {
+             textFormat: Text.RichText
+             font.family: Icons.font
+             font.pixelSize: 18
+-            color: root.pressed ? Colors.background : (Styling.srItem("overprimary") || Colors.foreground)
++            color: root.pressed ? Colors.background : (Styling.srItem("overprimary") || Colors.overBackground)
+             horizontalAlignment: Text.AlignHCenter
+             verticalAlignment: Text.AlignVCenter
+         }
+diff --git a/modules/theme/Colors.qml b/modules/theme/Colors.qml
+index 4af1dcbfed0db658858bb66b06e7b8fa4304d2da..6803af8ddf8b2b2b9acca7b891e9ad9caa22ac80 100644
+--- a/modules/theme/Colors.qml
++++ b/modules/theme/Colors.qml
+@@ -280,8 +280,10 @@ FileView {
+     property color yellowValue: adapter.yellowValue
+     property color sourceColor: adapter.sourceColor
+ 
+-    property color criticalText: "#FF6B08"
+-    property color criticalRed: "#FF0028"
++    // Colorbxst: critical notifications follow the "Error" variant (was #FF6B08 / #FF0028).
++    readonly property var criticalStops: Config.theme.srError ? Config.theme.srError.gradient : null
++    property color criticalRed: (criticalStops && criticalStops.length > 0) ? Config.resolveColor(criticalStops[0][0]) : adapter.error
++    property color criticalText: criticalRed
+ 
+     // Semantic aliases
+     property color warning: adapter.yellow

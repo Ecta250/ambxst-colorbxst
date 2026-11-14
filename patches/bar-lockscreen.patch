@@ -1,0 +1,146 @@
+diff --git a/modules/bar/clock/Clock.qml b/modules/bar/clock/Clock.qml
+index 993046877e31d5d863280d0f83c21471a0a4efc7..86ef6c6ce2d38542ef86344741b618f2eef6e983 100644
+--- a/modules/bar/clock/Clock.qml
++++ b/modules/bar/clock/Clock.qml
+@@ -75,7 +75,7 @@ Item {
+             Text {
+                 id: dayDisplay
+                 text: root.weatherAvailable ? WeatherService.weatherSymbol : root.currentDayAbbrev
+-                color: root.popupOpen ? buttonBg.item : Colors.overBackground
++                color: buttonBg.item
+                 font.pixelSize: root.weatherAvailable ? 16 : Config.theme.fontSize
+                 font.family: root.weatherAvailable ? Config.theme.font : Config.theme.font
+                 font.bold: !root.weatherAvailable
+@@ -89,7 +89,7 @@ Item {
+             Text {
+                 id: timeDisplay
+                 text: root.currentTime
+-                color: root.popupOpen ? buttonBg.item : Colors.overBackground
++                color: buttonBg.item
+                 font.pixelSize: Config.theme.fontSize
+                 font.family: Config.theme.font
+                 font.bold: true
+@@ -106,7 +106,7 @@ Item {
+             Text {
+                 id: dayDisplayV
+                 text: root.weatherAvailable ? WeatherService.weatherSymbol : root.currentDayAbbrev
+-                color: root.popupOpen ? buttonBg.item : Colors.overBackground
++                color: buttonBg.item
+                 font.pixelSize: root.weatherAvailable ? 16 : Config.theme.fontSize
+                 font.family: Config.theme.font
+                 font.bold: !root.weatherAvailable
+@@ -124,7 +124,7 @@ Item {
+             Text {
+                 id: hoursDisplayV
+                 text: root.currentHours
+-                color: root.popupOpen ? buttonBg.item : Colors.overBackground
++                color: buttonBg.item
+                 font.pixelSize: Config.theme.fontSize
+                 font.family: Config.theme.font
+                 font.bold: true
+@@ -136,7 +136,7 @@ Item {
+             Text {
+                 id: minutesDisplayV
+                 text: root.currentMinutes
+-                color: root.popupOpen ? buttonBg.item : Colors.overBackground
++                color: buttonBg.item
+                 font.pixelSize: Config.theme.fontSize
+                 font.family: Config.theme.font
+                 font.bold: true
+diff --git a/modules/bar/clock/ClockIndicator.qml b/modules/bar/clock/ClockIndicator.qml
+index b8a19a9656b5eddc9dc7a762377d3d7c6ba5d578..a5cefefa84830617fe665e50dc5c6c182820087e 100644
+--- a/modules/bar/clock/ClockIndicator.qml
++++ b/modules/bar/clock/ClockIndicator.qml
+@@ -4,7 +4,7 @@ import qs.modules.theme
+ 
+ Text {
+     text: Icons.clock
+-    color: Colors.overBackground
++    color: Styling.srItem("bg")
+     font.pixelSize: 20
+     font.family: Icons.font
+ }
+diff --git a/modules/bar/clock/Weather.qml b/modules/bar/clock/Weather.qml
+index 53987e35bbcca3ffc65e83f4ae417a3b9f8c9590..8b446a25b42995e5f6278b66c4c962f5cc222bc3 100644
+--- a/modules/bar/clock/Weather.qml
++++ b/modules/bar/clock/Weather.qml
+@@ -41,7 +41,7 @@ StyledRect {
+         Text {
+             id: symbolDisplay
+             text: weatherContainer.weatherSymbol
+-            color: Colors.overBackground
++            color: weatherContainer.item
+             font.pixelSize: 16
+             font.family: Config.theme.font
+             font.bold: true
+@@ -57,7 +57,7 @@ StyledRect {
+         Text {
+             id: tempDisplay
+             text: weatherContainer.weatherTemp
+-            color: Colors.overBackground
++            color: weatherContainer.item
+             font.pixelSize: Config.theme.fontSize
+             font.family: Config.theme.font
+             font.bold: true
+@@ -74,7 +74,7 @@ StyledRect {
+         Text {
+             id: symbolDisplayV
+             text: weatherContainer.weatherSymbol
+-            color: Colors.overBackground
++            color: weatherContainer.item
+             font.pixelSize: 16
+             font.family: Config.theme.font
+             font.bold: true
+@@ -92,7 +92,7 @@ StyledRect {
+         Text {
+             id: tempDisplayV
+             text: weatherContainer.vertical && weatherContainer.weatherTemp.length > 0 ? weatherContainer.weatherTemp.slice(0, -1) : weatherContainer.weatherTemp
+-            color: Colors.overBackground
++            color: weatherContainer.item
+             font.pixelSize: Config.theme.fontSize
+             font.family: Config.theme.font
+             font.bold: true
+diff --git a/modules/bar/workspaces/Workspaces.qml b/modules/bar/workspaces/Workspaces.qml
+index a46e1af019aa4c558881e87174f7dff290dd5fbb..a6d160aceb880c877ed276b907a14b3c91e72cc1 100644
+--- a/modules/bar/workspaces/Workspaces.qml
++++ b/modules/bar/workspaces/Workspaces.qml
+@@ -489,7 +489,7 @@ Item {
+                         font.pixelSize: workspaceLabelFontSize(text)
+                         text: `${button.workspaceValue}`
+                         elide: Text.ElideRight
+-                        color: ((monitor && monitor.activeWorkspace ? monitor.activeWorkspace.id : undefined) == button.workspaceValue) ? Styling.srItem("primary") : (workspaceOccupied[index] ? Colors.overBackground : Colors.overSecondaryFixedVariant)
++                        color: ((monitor && monitor.activeWorkspace ? monitor.activeWorkspace.id : undefined) == button.workspaceValue) ? Styling.srItem("primary") : (workspaceOccupied[index] ? Styling.srItem("bg") : Colorbxst.dim(Styling.srItem("bg")))
+ 
+                         Behavior on opacity {
+                             enabled: Config.animDuration > 0
+@@ -626,7 +626,7 @@ Item {
+                         font.pixelSize: workspaceLabelFontSize(text)
+                         text: `${buttonVert.workspaceValue}`
+                         elide: Text.ElideRight
+-                        color: ((monitor && monitor.activeWorkspace ? monitor.activeWorkspace.id : undefined) == buttonVert.workspaceValue) ? Styling.srItem("primary") : (workspaceOccupied[index] ? Colors.overBackground : Colors.overSecondaryFixedVariant)
++                        color: ((monitor && monitor.activeWorkspace ? monitor.activeWorkspace.id : undefined) == buttonVert.workspaceValue) ? Styling.srItem("primary") : (workspaceOccupied[index] ? Styling.srItem("bg") : Colorbxst.dim(Styling.srItem("bg")))
+ 
+                         Behavior on opacity {
+                             enabled: Config.animDuration > 0
+diff --git a/modules/lockscreen/LockScreen.qml b/modules/lockscreen/LockScreen.qml
+index c8ffe5dde5a5389241a6d4b70c4dc08c32b6562d..77de9a4291502eb9268ace046a2d34339f5ec561 100644
+--- a/modules/lockscreen/LockScreen.qml
++++ b/modules/lockscreen/LockScreen.qml
+@@ -210,7 +210,7 @@ WlSessionLockSurface {
+                 text: Config.bar.use12hFormat ? (clockContainer.currentTime.getHours() % 12 || 12).toString() : Qt.formatTime(clockContainer.currentTime, "hh")
+                 font.family: "League Gothic"
+                 font.pixelSize: 240
+-                color: Colors.primaryFixed
++                color: Colorbxst.primaryColor
+                 antialiasing: true
+                 opacity: startAnim ? 1 : 0
+ 
+@@ -245,7 +245,7 @@ WlSessionLockSurface {
+                 text: Qt.formatTime(clockContainer.currentTime, "mm")
+                 font.family: "League Gothic"
+                 font.pixelSize: 240
+-                color: Colors.primaryFixedDim
++                color: Qt.darker(Colorbxst.primaryColor, 1.12)
+                 antialiasing: true
+                 anchors.verticalCenter: undefined
+                 anchors.top: hoursText.top

@@ -1,0 +1,188 @@
+diff --git a/modules/theme/GhosttyGenerator.qml b/modules/theme/GhosttyGenerator.qml
+index f4e5ece0862afdc4647918e91299493e921bca49..e75841d903a266d2b22ba7a445b99fa171999d78 100644
+--- a/modules/theme/GhosttyGenerator.qml
++++ b/modules/theme/GhosttyGenerator.qml
+@@ -2,6 +2,7 @@ import QtQuick
+ import Quickshell
+ import Quickshell.Io
+ import qs.config
++import qs.modules.theme
+ 
+ QtObject {
+     id: root
+@@ -9,50 +10,37 @@ QtObject {
+     function generate(Colors) {
+         if (!Colors)
+             return;
+-        const fmt = c => c.toString().replace("#", "");
+-
+-        const cursor = fmt(Colors.overSurface);
+-        const cursorText = fmt(Colors.overSurfaceVariant);
+-
+-        const foreground = fmt(Colors.overSurface);
+-        const background = fmt(Colors.background);
+-        const selectionForeground = fmt(Colors.overSecondary);
+-        const selectionBackground = fmt(Colors.secondaryFixedDim);
+-        const urlColor = fmt(Colors.primary);
+-        const backgroundOpacity = Config.theme.srBg.opacity;
+-
+-        // black
+-        const color0 = fmt(Colors.surfaceContainerLow);
+-        const color8 = fmt(Colors.surfaceBright);
+-
+-        // red
+-        const color1 = fmt(Colors.red);
+-        const color9 = fmt(Colors.lightRed);
+-
+-        // green
+-        const color2 = fmt(Colors.green);
+-        const color10 = fmt(Colors.lightGreen);
+-
+-        // yellow
+-        const color3 = fmt(Colors.yellow);
+-        const color11 = fmt(Colors.lightYellow);
+-
+-        // blue
+-        // User requested primary for color4
+-        const color4 = fmt(Colors.primary);
+-        const color12 = fmt(Colors.lightBlue);
+-
+-        // magenta
+-        const color5 = fmt(Colors.magenta);
+-        const color13 = fmt(Colors.lightMagenta);
+-
+-        // cyan
+-        const color6 = fmt(Colors.cyan);
+-        const color14 = fmt(Colors.lightCyan);
+-
+-        // white
+-        const color7 = fmt(Colors.outline);
+-        const color15 = fmt(Colors.overSurface);
++        // Colorbxst: background follows the "Background" variant and the
++        // ANSI palette comes from Colorbxst (editable, not inverted in light mode).
++        const fmt = c => c.replace("#", "");
++        const t = Colorbxst.terminal();
++
++        const cursor = fmt(t.cursor);
++        const cursorText = fmt(t.cursorText);
++
++        const foreground = fmt(t.foreground);
++        const background = fmt(t.background);
++        const selectionForeground = fmt(t.selectionForeground);
++        const selectionBackground = fmt(t.selectionBackground);
++        const urlColor = fmt(t.url);
++        const backgroundOpacity = t.backgroundOpacity;
++
++        const color0 = fmt(t.palette[0]);
++        const color1 = fmt(t.palette[1]);
++        const color2 = fmt(t.palette[2]);
++        const color3 = fmt(t.palette[3]);
++        const color4 = fmt(t.palette[4]);
++        const color5 = fmt(t.palette[5]);
++        const color6 = fmt(t.palette[6]);
++        const color7 = fmt(t.palette[7]);
++        const color8 = fmt(t.palette[8]);
++        const color9 = fmt(t.palette[9]);
++        const color10 = fmt(t.palette[10]);
++        const color11 = fmt(t.palette[11]);
++        const color12 = fmt(t.palette[12]);
++        const color13 = fmt(t.palette[13]);
++        const color14 = fmt(t.palette[14]);
++        const color15 = fmt(t.palette[15]);
+ 
+         let conf = "";
+         conf += `cursor-color = ${cursor}\n`;
+diff --git a/modules/theme/KittyGenerator.qml b/modules/theme/KittyGenerator.qml
+index 55d2b8262d76b6bf1168b292fd3cab78665aa796..9e36f042517142a1e350cb5559c3911b900c4738 100644
+--- a/modules/theme/KittyGenerator.qml
++++ b/modules/theme/KittyGenerator.qml
+@@ -2,6 +2,7 @@ import QtQuick
+ import Quickshell
+ import Quickshell.Io
+ import qs.config
++import qs.modules.theme
+ 
+ QtObject {
+     id: root
+@@ -9,50 +10,37 @@ QtObject {
+     function generate(Colors) {
+         if (!Colors)
+             return;
+-        const fmt = c => c.toString();
+-
+-        const cursor = fmt(Colors.overSurface);
+-        const cursorText = fmt(Colors.overSurfaceVariant);
+-
+-        const foreground = fmt(Colors.overSurface);
+-        const background = fmt(Colors.background);
+-        const selectionForeground = fmt(Colors.overSecondary);
+-        const selectionBackground = fmt(Colors.secondaryFixedDim);
+-        const urlColor = fmt(Colors.primary);
+-        const backgroundOpacity = Config.theme.srBg.opacity;
+-
+-        // black
+-        const color0 = fmt(Colors.surfaceContainerLow);
+-        const color8 = fmt(Colors.surfaceBright);
+-
+-        // red
+-        const color1 = fmt(Colors.red);
+-        const color9 = fmt(Colors.lightRed);
+-
+-        // green
+-        const color2 = fmt(Colors.green);
+-        const color10 = fmt(Colors.lightGreen);
+-
+-        // yellow
+-        const color3 = fmt(Colors.yellow);
+-        const color11 = fmt(Colors.lightYellow);
+-
+-        // blue
+-        // User requested primary for color4
+-        const color4 = fmt(Colors.primary);
+-        const color12 = fmt(Colors.lightBlue);
+-
+-        // magenta
+-        const color5 = fmt(Colors.magenta);
+-        const color13 = fmt(Colors.lightMagenta);
+-
+-        // cyan
+-        const color6 = fmt(Colors.cyan);
+-        const color14 = fmt(Colors.lightCyan);
+-
+-        // white
+-        const color7 = fmt(Colors.outline);
+-        const color15 = fmt(Colors.overSurface);
++        // Colorbxst: background follows the "Background" variant and the
++        // ANSI palette comes from Colorbxst (editable, not inverted in light mode).
++        const fmt = c => c;
++        const t = Colorbxst.terminal();
++
++        const cursor = fmt(t.cursor);
++        const cursorText = fmt(t.cursorText);
++
++        const foreground = fmt(t.foreground);
++        const background = fmt(t.background);
++        const selectionForeground = fmt(t.selectionForeground);
++        const selectionBackground = fmt(t.selectionBackground);
++        const urlColor = fmt(t.url);
++        const backgroundOpacity = t.backgroundOpacity;
++
++        const color0 = fmt(t.palette[0]);
++        const color1 = fmt(t.palette[1]);
++        const color2 = fmt(t.palette[2]);
++        const color3 = fmt(t.palette[3]);
++        const color4 = fmt(t.palette[4]);
++        const color5 = fmt(t.palette[5]);
++        const color6 = fmt(t.palette[6]);
++        const color7 = fmt(t.palette[7]);
++        const color8 = fmt(t.palette[8]);
++        const color9 = fmt(t.palette[9]);
++        const color10 = fmt(t.palette[10]);
++        const color11 = fmt(t.palette[11]);
++        const color12 = fmt(t.palette[12]);
++        const color13 = fmt(t.palette[13]);
++        const color14 = fmt(t.palette[14]);
++        const color15 = fmt(t.palette[15]);
+ 
+         let conf = "";
+         conf += `cursor ${cursor}\n`;

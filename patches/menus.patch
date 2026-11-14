@@ -1,0 +1,251 @@
+diff --git a/modules/bar/LayoutSelector.qml b/modules/bar/LayoutSelector.qml
+index 1073aede3d7ae3e16ea67e0d35bca0995948a0ca..d69e4ba4d5334658989bd9428d4316abc09002c6 100644
+--- a/modules/bar/LayoutSelector.qml
++++ b/modules/bar/LayoutSelector.qml
+@@ -139,7 +139,7 @@ StyledRect {
+ 
+                     contentItem: Text {
+                         text: root.getLayoutIcon(modelData)
+-                        color: GlobalStates.compositorLayout === modelData ? Styling.srItem("primary") : Colors.overBackground
++                        color: GlobalStates.compositorLayout === modelData ? Styling.srItem("primary") : Styling.srItem("bg")
+                         font.family: Icons.font
+                         font.pixelSize: 18
+                         horizontalAlignment: Text.AlignHCenter
+@@ -193,7 +193,7 @@ StyledRect {
+ 
+                     contentItem: Text {
+                         text: root.getLayoutIcon(modelData)
+-                        color: GlobalStates.compositorLayout === modelData ? Styling.srItem("primary") : Colors.overBackground
++                        color: GlobalStates.compositorLayout === modelData ? Styling.srItem("primary") : Styling.srItem("bg")
+                         font.family: Icons.font
+                         font.pixelSize: 18
+                         horizontalAlignment: Text.AlignHCenter
+diff --git a/modules/bar/PowerProfileSelector.qml b/modules/bar/PowerProfileSelector.qml
+index 785449050b37e4f714282f76452d83d23435ba73..1544d84ebe23e248b2f6a269232c65dbb577e2b5 100644
+--- a/modules/bar/PowerProfileSelector.qml
++++ b/modules/bar/PowerProfileSelector.qml
+@@ -137,7 +137,7 @@ StyledRect {
+ 
+                     contentItem: Text {
+                         text: PowerProfileClient.getProfileIcon(modelData)
+-                        color: PowerProfileClient.currentProfile === modelData ? Styling.srItem("primary") : Colors.overBackground
++                        color: PowerProfileClient.currentProfile === modelData ? Styling.srItem("primary") : Styling.srItem("bg")
+                         font.family: Icons.font
+                         font.pixelSize: 18
+                         horizontalAlignment: Text.AlignHCenter
+@@ -191,7 +191,7 @@ StyledRect {
+ 
+                     contentItem: Text {
+                         text: PowerProfileClient.getProfileIcon(modelData)
+-                        color: PowerProfileClient.currentProfile === modelData ? Styling.srItem("primary") : Colors.overBackground
++                        color: PowerProfileClient.currentProfile === modelData ? Styling.srItem("primary") : Styling.srItem("bg")
+                         font.family: Icons.font
+                         font.pixelSize: 18
+                         horizontalAlignment: Text.AlignHCenter
+diff --git a/modules/sidebar/ModelSelectorPopup.qml b/modules/sidebar/ModelSelectorPopup.qml
+index a5fb2a16711a2072a8d08be5455cc4192a12b125..2511b713aca42a28e254b243d15b7bdd5a85806b 100644
+--- a/modules/sidebar/ModelSelectorPopup.qml
++++ b/modules/sidebar/ModelSelectorPopup.qml
+@@ -458,7 +458,7 @@ Popup {
+ 
+                         Text {
+                             text: modelData.name
+-                            color: delegateBtn.isSelected ? Styling.srItem("primary") : (delegateBtn.isActiveModel ? Styling.srItem("overprimary") : Colors.overBackground)
++                            color: delegateBtn.isSelected ? Styling.srItem("primary") : (delegateBtn.isActiveModel ? Styling.srItem("overprimary") : Styling.srItem("popup"))
+                             font.family: Config.theme.font
+                             font.pixelSize: 14
+                             font.weight: Font.Medium
+@@ -477,7 +477,7 @@ Popup {
+                         Text {
+                             // Show provider and model ID
+                             text: modelData.api_format.toUpperCase() + " • " + modelData.model
+-                            color: delegateBtn.isSelected ? Styling.srItem("primary") : Colors.outline
++                            color: delegateBtn.isSelected ? Styling.srItem("primary") : Qt.rgba(Styling.srItem("popup").r, Styling.srItem("popup").g, Styling.srItem("popup").b, Colorbxst.dimOpacity)
+                             font.family: Config.theme.font
+                             font.pixelSize: 11
+                             Layout.fillWidth: true
+diff --git a/modules/widgets/dashboard/clipboard/ClipboardTab.qml b/modules/widgets/dashboard/clipboard/ClipboardTab.qml
+index d33f374996ae8dc7c8b2d203ab12a74dbab88638..34454c0ba567750768173346b6977ac0824cffb8 100644
+--- a/modules/widgets/dashboard/clipboard/ClipboardTab.qml
++++ b/modules/widgets/dashboard/clipboard/ClipboardTab.qml
+@@ -1682,7 +1682,7 @@ Item {
+                                     }
+                                     return 36 * Math.min(3, count);
+                                 }
+-                                color: Colors.background
++                                color: Colorbxst.popupBackground // Colorbxst: Popup variant
+                                 radius: Styling.radius(0)
+ 
+                                 Behavior on Layout.preferredHeight {
+@@ -1831,9 +1831,9 @@ Item {
+                                                     textFormat: Text.RichText
+                                                     color: {
+                                                         if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
+-                                                            return modelData.textColor;
++                                                            return Colorbxst.optionText(modelData.highlightColor);
+                                                         }
+-                                                        return Colors.overSurface;
++                                                        return Styling.srItem("popup");
+                                                     }
+ 
+                                                     Behavior on color {
+@@ -1853,9 +1853,9 @@ Item {
+                                                     font.weight: optionsListView.currentIndex === index ? Font.Bold : Font.Normal
+                                                     color: {
+                                                         if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
+-                                                            return modelData.textColor;
++                                                            return Colorbxst.optionText(modelData.highlightColor);
+                                                         }
+-                                                        return Colors.overSurface;
++                                                        return Styling.srItem("popup");
+                                                     }
+                                                     elide: Text.ElideRight
+                                                     maximumLineCount: 1
+diff --git a/modules/widgets/dashboard/notes/NotesTab.qml b/modules/widgets/dashboard/notes/NotesTab.qml
+index 78aa2a62ece7111ea4f48341cff2f003919edbde..eda4f92b25f32777d46ae551b013da38bc500862 100644
+--- a/modules/widgets/dashboard/notes/NotesTab.qml
++++ b/modules/widgets/dashboard/notes/NotesTab.qml
+@@ -2014,7 +2014,7 @@ Item {
+                         ClippingRectangle {
+                             Layout.fillWidth: true
+                             Layout.preferredHeight: 36 * (modelData.isCreateButton ? 2 : 3)
+-                            color: Colors.background
++                            color: Colorbxst.popupBackground // Colorbxst: Popup variant
+                             radius: Styling.radius(0)
+ 
+                             Behavior on Layout.preferredHeight {
+@@ -2101,9 +2101,9 @@ Item {
+                                                 textFormat: Text.RichText
+                                                 color: {
+                                                     if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
+-                                                        return modelData.textColor;
++                                                        return Colorbxst.optionText(modelData.highlightColor);
+                                                     }
+-                                                    return Colors.overSurface;
++                                                    return Styling.srItem("popup");
+                                                 }
+ 
+                                                 Behavior on color {
+@@ -2123,9 +2123,9 @@ Item {
+                                                 font.weight: optionsListView.currentIndex === index ? Font.Bold : Font.Normal
+                                                 color: {
+                                                     if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
+-                                                        return modelData.textColor;
++                                                        return Colorbxst.optionText(modelData.highlightColor);
+                                                     }
+-                                                    return Colors.overSurface;
++                                                    return Styling.srItem("popup");
+                                                 }
+                                                 elide: Text.ElideRight
+                                                 maximumLineCount: 1
+diff --git a/modules/widgets/dashboard/tmux/TmuxTab.qml b/modules/widgets/dashboard/tmux/TmuxTab.qml
+index 3de975ea8dc13236e25fa424f19ebf37cb4504b0..e85a30325ac5744b26db1976ee11d6beebdcb55a 100644
+--- a/modules/widgets/dashboard/tmux/TmuxTab.qml
++++ b/modules/widgets/dashboard/tmux/TmuxTab.qml
+@@ -992,7 +992,7 @@ Item {
+                         ClippingRectangle {
+                             Layout.fillWidth: true
+                             Layout.preferredHeight: 36 * 3 // Always 3 options
+-                            color: Colors.background
++                            color: Colorbxst.popupBackground // Colorbxst: Popup variant
+                             radius: Styling.radius(0)
+ 
+                             Behavior on Layout.preferredHeight {
+@@ -1109,9 +1109,9 @@ Item {
+                                                 textFormat: Text.RichText
+                                                 color: {
+                                                     if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
+-                                                        return modelData.textColor;
++                                                        return Colorbxst.optionText(modelData.highlightColor);
+                                                     }
+-                                                    return Colors.overSurface;
++                                                    return Styling.srItem("popup");
+                                                 }
+ 
+                                                 Behavior on color {
+@@ -1131,9 +1131,9 @@ Item {
+                                                 font.weight: optionsListView.currentIndex === index ? Font.Bold : Font.Normal
+                                                 color: {
+                                                     if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
+-                                                        return modelData.textColor;
++                                                        return Colorbxst.optionText(modelData.highlightColor);
+                                                     }
+-                                                    return Colors.overSurface;
++                                                    return Styling.srItem("popup");
+                                                 }
+                                                 elide: Text.ElideRight
+                                                 maximumLineCount: 1
+diff --git a/modules/widgets/launcher/LauncherView.qml b/modules/widgets/launcher/LauncherView.qml
+index 5f6e392c7eb2c73d7c256bf390ffa0ecbcf32a5b..c5b7c895cfad0f1e676e15070ab640de32ba946e 100644
+--- a/modules/widgets/launcher/LauncherView.qml
++++ b/modules/widgets/launcher/LauncherView.qml
+@@ -852,7 +852,7 @@ Rectangle {
+                         ClippingRectangle {
+                             Layout.fillWidth: true
+                             Layout.preferredHeight: 36 * 3 // Always 3 options
+-                            color: Colors.background
++                            color: Colorbxst.popupBackground // Colorbxst: Popup variant
+                             radius: Styling.radius(0)
+ 
+                             ListView {
+@@ -951,9 +951,9 @@ Rectangle {
+                                                 textFormat: Text.RichText
+                                                 color: {
+                                                     if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
+-                                                        return modelData.textColor;
++                                                        return Colorbxst.optionText(modelData.highlightColor);
+                                                     }
+-                                                    return Colors.overSurface;
++                                                    return Styling.srItem("popup");
+                                                 }
+ 
+                                                 Behavior on color {
+@@ -973,9 +973,9 @@ Rectangle {
+                                                 font.weight: optionsListView.currentIndex === index ? Font.Bold : Font.Normal
+                                                 color: {
+                                                     if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
+-                                                        return modelData.textColor;
++                                                        return Colorbxst.optionText(modelData.highlightColor);
+                                                     }
+-                                                    return Colors.overSurface;
++                                                    return Styling.srItem("popup");
+                                                 }
+                                                 elide: Text.ElideRight
+                                                 maximumLineCount: 1
+diff --git a/modules/widgets/presets/PresetsTab.qml b/modules/widgets/presets/PresetsTab.qml
+index 2f466f5b8c1d990312ed88ca36e104c9b0f1012d..8971c20dbe6150a7adfbbdd02479cab01a987bdc 100644
+--- a/modules/widgets/presets/PresetsTab.qml
++++ b/modules/widgets/presets/PresetsTab.qml
+@@ -741,7 +741,7 @@ Item {
+                     ClippingRectangle {
+                         Layout.fillWidth: true
+                         Layout.preferredHeight: 36 * optionsListView.count
+-                        color: Colors.background
++                        color: Colorbxst.popupBackground // Colorbxst: Popup variant
+                         radius: Styling.radius(0)
+ 
+                         ListView {
+@@ -805,9 +805,9 @@ Item {
+                                             textFormat: Text.RichText
+                                             color: {
+                                                 if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
+-                                                    return modelData.textColor;
++                                                    return Colorbxst.optionText(modelData.highlightColor);
+                                                 }
+-                                                return Colors.overSurface;
++                                                return Styling.srItem("popup");
+                                             }
+ 
+                                             Behavior on color {
+@@ -827,9 +827,9 @@ Item {
+                                             font.weight: optionsListView.currentIndex === index ? Font.Bold : Font.Normal
+                                             color: {
+                                                 if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
+-                                                    return modelData.textColor;
++                                                    return Colorbxst.optionText(modelData.highlightColor);
+                                                 }
+-                                                return Colors.overSurface;
++                                                return Styling.srItem("popup");
+                                             }
+                                             elide: Text.ElideRight
+                                             maximumLineCount: 1

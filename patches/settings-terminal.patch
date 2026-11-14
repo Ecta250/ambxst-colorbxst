@@ -1,0 +1,50 @@
+diff --git a/modules/widgets/dashboard/controls/ThemePanel.qml b/modules/widgets/dashboard/controls/ThemePanel.qml
+index ac44b52aa2af6f45a3b46404a7da60aec32acdec..726afd85d3a571625889efa9ff159c247450b9fa 100644
+--- a/modules/widgets/dashboard/controls/ThemePanel.qml
++++ b/modules/widgets/dashboard/controls/ThemePanel.qml
+@@ -197,7 +197,7 @@ Item {
+                     id: titlebar
+                     width: root.contentWidth
+                     anchors.horizontalCenter: parent.horizontalCenter
+-                    title: root.currentSection === "" ? I18n.t("settings.theme") : I18n.t("settings.theme." + root.currentSection)
++                    title: root.currentSection === "" ? I18n.t("settings.theme") : (root.currentSection === "terminal" ? "Terminal" : I18n.t("settings.theme." + root.currentSection))
+                     statusText: GlobalStates.themeHasChanges ? I18n.t("common.unsaved_changes") : ""
+                     statusColor: Colors.error
+ 
+@@ -269,6 +269,11 @@ Item {
+                             text: I18n.t("settings.theme.colors")
+                             sectionId: "colors"
+                         }
++                        // Colorbxst: terminal colours
++                        SectionButton {
++                            text: "Terminal"
++                            sectionId: "terminal"
++                        }
+                     }
+ 
+                     // General section
+@@ -1512,6 +1517,24 @@ Item {
+                             }
+                         }
+                     }
++
++                    // Colorbxst: Terminal section
++                    Item {
++                        visible: root.currentSection === "terminal"
++                        property string settingsSection: "terminal"
++                        Layout.fillWidth: true
++                        Layout.preferredHeight: terminalEditor.implicitHeight
++
++                        TerminalEditor {
++                            id: terminalEditor
++                            anchors.left: parent.left
++                            anchors.right: parent.right
++                            anchors.top: parent.top
++                            onOpenColorPickerRequested: (colorNames, currentColor, dialogTitle, callback) => {
++                                root.openColorPicker(colorNames, currentColor, dialogTitle, callback);
++                            }
++                        }
++                    }
+                 }
+             }
+         }

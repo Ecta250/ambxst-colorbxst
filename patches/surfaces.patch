@@ -1,0 +1,17 @@
+diff --git a/modules/theme/Colors.qml b/modules/theme/Colors.qml
+index 6803af8ddf8b2b2b9acca7b891e9ad9caa22ac80..b59f0e6d208ea29ec49464b9de0d216b4a5b25e0 100644
+--- a/modules/theme/Colors.qml
++++ b/modules/theme/Colors.qml
+@@ -180,8 +180,10 @@ FileView {
+ 
+     property color background: Config.oledMode ? "#000000" : adapter.background
+ 
+-    property color surface: Qt.tint(background, Qt.rgba(adapter.overBackground.r, adapter.overBackground.g, adapter.overBackground.b, 0.1))
+-    property color surfaceBright: Qt.tint(background, Qt.rgba(adapter.overBackground.r, adapter.overBackground.g, adapter.overBackground.b, 0.2))
++    // Colorbxst: use the palette's own surface tones; the old 10 % / 20 % tints
++    // of the background are kept only for OLED mode (pure black background).
++    property color surface: Config.oledMode ? Qt.tint(background, Qt.rgba(adapter.overBackground.r, adapter.overBackground.g, adapter.overBackground.b, 0.1)) : adapter.surface
++    property color surfaceBright: Config.oledMode ? Qt.tint(background, Qt.rgba(adapter.overBackground.r, adapter.overBackground.g, adapter.overBackground.b, 0.2)) : adapter.surfaceBright
+     property color surfaceContainer: adapter.surfaceContainer
+     property color surfaceContainerHigh: adapter.surfaceContainerHigh
+     property color surfaceContainerHighest: adapter.surfaceContainerHighest
