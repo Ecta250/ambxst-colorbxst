@@ -1,19 +1,19 @@
 diff --git a/modules/bar/LayoutSelector.qml b/modules/bar/LayoutSelector.qml
-index 1073aede3d7ae3e16ea67e0d35bca0995948a0ca..d69e4ba4d5334658989bd9428d4316abc09002c6 100644
+index 1543a34123044a2d06d616c5af26493c3ac141f0..897de0caba06c0f7b63adc522def3c21cfed11c0 100644
 --- a/modules/bar/LayoutSelector.qml
 +++ b/modules/bar/LayoutSelector.qml
-@@ -139,7 +139,7 @@ StyledRect {
- 
+@@ -156,7 +156,7 @@ StyledRect {
                      contentItem: Text {
+                         id: layoutIcon
                          text: root.getLayoutIcon(modelData)
 -                        color: GlobalStates.compositorLayout === modelData ? Styling.srItem("primary") : Colors.overBackground
 +                        color: GlobalStates.compositorLayout === modelData ? Styling.srItem("primary") : Styling.srItem("bg")
                          font.family: Icons.font
                          font.pixelSize: 18
                          horizontalAlignment: Text.AlignHCenter
-@@ -193,7 +193,7 @@ StyledRect {
- 
+@@ -218,7 +218,7 @@ StyledRect {
                      contentItem: Text {
+                         id: layoutIcon
                          text: root.getLayoutIcon(modelData)
 -                        color: GlobalStates.compositorLayout === modelData ? Styling.srItem("primary") : Colors.overBackground
 +                        color: GlobalStates.compositorLayout === modelData ? Styling.srItem("primary") : Styling.srItem("bg")
@@ -176,10 +176,10 @@ index 3de975ea8dc13236e25fa424f19ebf37cb4504b0..e85a30325ac5744b26db1976ee11d6be
                                                  elide: Text.ElideRight
                                                  maximumLineCount: 1
 diff --git a/modules/widgets/launcher/LauncherView.qml b/modules/widgets/launcher/LauncherView.qml
-index 5f6e392c7eb2c73d7c256bf390ffa0ecbcf32a5b..c5b7c895cfad0f1e676e15070ab640de32ba946e 100644
+index 593eafc97e5cfc863555bed39cbebfbfe0c21126..64af556c45148d0d28c33ba593b3dd0a014b24b0 100644
 --- a/modules/widgets/launcher/LauncherView.qml
 +++ b/modules/widgets/launcher/LauncherView.qml
-@@ -852,7 +852,7 @@ Rectangle {
+@@ -857,7 +857,7 @@ Rectangle {
                          ClippingRectangle {
                              Layout.fillWidth: true
                              Layout.preferredHeight: 36 * 3 // Always 3 options
@@ -188,7 +188,7 @@ index 5f6e392c7eb2c73d7c256bf390ffa0ecbcf32a5b..c5b7c895cfad0f1e676e15070ab640de
                              radius: Styling.radius(0)
  
                              ListView {
-@@ -951,9 +951,9 @@ Rectangle {
+@@ -956,9 +956,9 @@ Rectangle {
                                                  textFormat: Text.RichText
                                                  color: {
                                                      if (optionsListView.currentIndex === index && modelData && modelData.textColor) {
@@ -200,7 +200,7 @@ index 5f6e392c7eb2c73d7c256bf390ffa0ecbcf32a5b..c5b7c895cfad0f1e676e15070ab640de
                                                  }
  
                                                  Behavior on color {
-@@ -973,9 +973,9 @@ Rectangle {
+@@ -978,9 +978,9 @@ Rectangle {
                                                  font.weight: optionsListView.currentIndex === index ? Font.Bold : Font.Normal
                                                  color: {
                                                      if (optionsListView.currentIndex === index && modelData && modelData.textColor) {

@@ -101,10 +101,10 @@ index 53987e35bbcca3ffc65e83f4ae417a3b9f8c9590..8b446a25b42995e5f6278b66c4c962f5
              font.family: Config.theme.font
              font.bold: true
 diff --git a/modules/bar/workspaces/Workspaces.qml b/modules/bar/workspaces/Workspaces.qml
-index a46e1af019aa4c558881e87174f7dff290dd5fbb..a6d160aceb880c877ed276b907a14b3c91e72cc1 100644
+index 885d03edffa419193fe40b327a54282069538167..298b05f3c199d16ea1cdde671abc4dac5a684372 100644
 --- a/modules/bar/workspaces/Workspaces.qml
 +++ b/modules/bar/workspaces/Workspaces.qml
-@@ -489,7 +489,7 @@ Item {
+@@ -501,7 +501,7 @@ Item {
                          font.pixelSize: workspaceLabelFontSize(text)
                          text: `${button.workspaceValue}`
                          elide: Text.ElideRight
@@ -113,7 +113,7 @@ index a46e1af019aa4c558881e87174f7dff290dd5fbb..a6d160aceb880c877ed276b907a14b3c
  
                          Behavior on opacity {
                              enabled: Config.animDuration > 0
-@@ -626,7 +626,7 @@ Item {
+@@ -650,7 +650,7 @@ Item {
                          font.pixelSize: workspaceLabelFontSize(text)
                          text: `${buttonVert.workspaceValue}`
                          elide: Text.ElideRight

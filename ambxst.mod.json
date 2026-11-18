@@ -3,8 +3,8 @@
   "manifestVersion": 1,
   "id": "ecta250.colorbxst",
   "name": "Colorbxst",
-  "version": "0.7.0",
-  "description": "Makes the shell and your apps follow the theme you edit in Settings. Terminals, GTK, Qt, Discord, NvChad and Pywal take their background from the Background variant; a Terminal section in Settings > Theme edits the terminal and Pywal palette (no longer inverted in light mode). Calendar, menus, option lists, tooltips, the OSD and critical notifications, bar text and the lock screen clock follow their variant instead of fixed palette tones.",
+  "version": "0.8.0",
+  "description": "Makes the shell and your apps follow the theme you edit in Settings. Terminals (Ghostty, Kitty, WezTerm, Foot, Alacritty), GTK, Qt, Discord, NvChad and Pywal take their background from the Background variant; a Terminal section in Settings > Theme edits the terminal and Pywal palette (no longer inverted in light mode). Calendar, menus, option lists, tooltips, the OSD and critical notifications, bar text and the lock screen clock follow their variant instead of fixed palette tones.",
   "license": "MIT",
   "author": "Ecta250",
   "authorUrl": "https://github.com/Ecta250",
@@ -12,16 +12,16 @@
   "changelog": "CHANGELOG.md",
   "compatibility": {
     "api": 1,
-    "ambxst": ">=1.3.15 <2.0.0",
+    "ambxst": ">=1.4.0 <2.0.0",
     "testedBaseCommits": [
-      "5d71e924212ce2c0203e7448e0b1e3db52608640"
+      "5db90ba000713b5cb991a2abce1b766ab47fbd2b"
     ]
   },
   "dependencies": [],
   "conflicts": [],
   "commands": [],
   "permissions": [
-    "Changes the colours Ambxst writes for Ghostty, Kitty, GTK, Qt (qt5ct/qt6ct), Discord, NvChad and Pywal (same files as before)",
+    "Changes the colours Ambxst writes for Ghostty, Kitty, WezTerm, Foot, Alacritty, GTK, Qt (qt5ct/qt6ct), Discord, NvChad and Pywal (same files as before)",
     "Saves the terminal colours of Settings > Theme > Terminal in ~/.config/ambxst/config/colorbxst.json (included in Ambxst presets) and reads its own mod settings"
   ],
   "localization": {
@@ -81,6 +81,10 @@
     {
       "type": "patch",
       "source": "patches/presets.patch"
+    },
+    {
+      "type": "patch",
+      "source": "patches/terminals-more.patch"
     }
   ]
 }

@@ -34,10 +34,10 @@ index e6bcbbf4e287b61cf4d51e8b95ca50f130c8b066..0d7561e90040c0ab808a3648eafe045b
              verticalAlignment: Text.AlignVCenter
          }
 diff --git a/modules/theme/Colors.qml b/modules/theme/Colors.qml
-index 4af1dcbfed0db658858bb66b06e7b8fa4304d2da..6803af8ddf8b2b2b9acca7b891e9ad9caa22ac80 100644
+index 3a3cf6544be0b4049f5b679174f9e17efddec23c..a02813e656229c1d44cce8f13f7eb58e48bd7e9b 100644
 --- a/modules/theme/Colors.qml
 +++ b/modules/theme/Colors.qml
-@@ -280,8 +280,10 @@ FileView {
+@@ -295,8 +295,10 @@ FileView {
      property color yellowValue: adapter.yellowValue
      property color sourceColor: adapter.sourceColor
  

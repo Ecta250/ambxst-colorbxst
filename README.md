@@ -6,7 +6,7 @@ Ambxst has two colour sources: the **palette** (from matugen or a colour preset,
 
 | Area | Before | With the mod |
 |---|---|---|
-| Ghostty / Kitty background | palette `background` | Background variant (first gradient colour + opacity) |
+| Ghostty / Kitty / WezTerm / Foot / Alacritty background | palette `background` | Background variant (first gradient colour + opacity) |
 | Terminal text / cursor | palette `overSurface` | Background variant item colour, or a mod setting |
 | ANSI palette | fixed tokens, inverted in light mode | mod settings `ANSI 0-15`; defaults keep 0/8 dark and 7/15 light |
 | Calendar days and headers | `overSurface`, `outline`, `surfaceBright` (fixed dark grey) | Internal BG item colour, dimmed for secondary days |

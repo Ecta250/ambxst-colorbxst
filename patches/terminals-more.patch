@@ -1,0 +1,185 @@
+diff --git a/modules/theme/AlacrittyGenerator.qml b/modules/theme/AlacrittyGenerator.qml
+index cadcb851969e4e4b27bed0b15842bbb1499b7e7d..a783091307fc8be629ea504a8d88fafb53abb9bf 100644
+--- a/modules/theme/AlacrittyGenerator.qml
++++ b/modules/theme/AlacrittyGenerator.qml
+@@ -1,6 +1,7 @@
+ import QtQuick
+ import Quickshell
+ import Quickshell.Io
++import qs.modules.theme
+ import qs.config
+ 
+ QtObject {
+@@ -11,34 +12,19 @@ QtObject {
+             return;
+ 
+         const fmt = color => color.toString();
+-        const foreground = fmt(Colors.overSurface);
+-        const background = fmt(Colors.background);
+-        const cursor = fmt(Colors.overSurface);
+-        const cursorText = fmt(Colors.overSurfaceVariant);
+-        const selectionForeground = fmt(Colors.overSecondary);
+-        const selectionBackground = fmt(Colors.secondaryFixedDim);
+-        const backgroundOpacity = Config.theme.srBg.opacity;
++        // Colorbxst: background follows the "Background" variant and the
++        // ANSI palette comes from Colorbxst (editable, not inverted in light mode).
++        const t = Colorbxst.terminal();
++        const foreground = fmt(t.foreground);
++        const background = fmt(t.background);
++        const cursor = fmt(t.cursor);
++        const cursorText = fmt(t.cursorText);
++        const selectionForeground = fmt(t.selectionForeground);
++        const selectionBackground = fmt(t.selectionBackground);
++        const backgroundOpacity = t.backgroundOpacity;
+ 
+-        const ansiColors = [
+-            fmt(Colors.surfaceContainerLow),
+-            fmt(Colors.red),
+-            fmt(Colors.green),
+-            fmt(Colors.yellow),
+-            fmt(Colors.primary),
+-            fmt(Colors.magenta),
+-            fmt(Colors.cyan),
+-            fmt(Colors.outline)
+-        ];
+-        const brightColors = [
+-            fmt(Colors.surfaceBright),
+-            fmt(Colors.lightRed),
+-            fmt(Colors.lightGreen),
+-            fmt(Colors.lightYellow),
+-            fmt(Colors.lightBlue),
+-            fmt(Colors.lightMagenta),
+-            fmt(Colors.lightCyan),
+-            fmt(Colors.overSurface)
+-        ];
++        const ansiColors = t.palette.slice(0, 8).map(fmt);
++        const brightColors = t.palette.slice(8, 16).map(fmt);
+ 
+         const lines = [
+             "[window]",
+diff --git a/modules/theme/FootGenerator.qml b/modules/theme/FootGenerator.qml
+index 59a0f706e820e99061d1f20130435a3eb310c019..fcc3347467893e2c5db3b47152d6e5efab5fbf2d 100644
+--- a/modules/theme/FootGenerator.qml
++++ b/modules/theme/FootGenerator.qml
+@@ -1,6 +1,7 @@
+ import QtQuick
+ import Quickshell
+ import Quickshell.Io
++import qs.modules.theme
+ import qs.config
+ 
+ QtObject {
+@@ -11,34 +12,19 @@ QtObject {
+             return;
+ 
+         const fmt = color => color.toString().replace("#", "");
+-        const foreground = fmt(Colors.overSurface);
+-        const background = fmt(Colors.background);
+-        const cursor = fmt(Colors.overSurface);
+-        const cursorText = fmt(Colors.overSurfaceVariant);
+-        const selectionForeground = fmt(Colors.overSecondary);
+-        const selectionBackground = fmt(Colors.secondaryFixedDim);
+-        const backgroundOpacity = Config.theme.srBg.opacity;
++        // Colorbxst: background follows the "Background" variant and the
++        // ANSI palette comes from Colorbxst (editable, not inverted in light mode).
++        const t = Colorbxst.terminal();
++        const foreground = fmt(t.foreground);
++        const background = fmt(t.background);
++        const cursor = fmt(t.cursor);
++        const cursorText = fmt(t.cursorText);
++        const selectionForeground = fmt(t.selectionForeground);
++        const selectionBackground = fmt(t.selectionBackground);
++        const backgroundOpacity = t.backgroundOpacity;
+ 
+-        const ansiColors = [
+-            fmt(Colors.surfaceContainerLow),
+-            fmt(Colors.red),
+-            fmt(Colors.green),
+-            fmt(Colors.yellow),
+-            fmt(Colors.primary),
+-            fmt(Colors.magenta),
+-            fmt(Colors.cyan),
+-            fmt(Colors.outline)
+-        ];
+-        const brightColors = [
+-            fmt(Colors.surfaceBright),
+-            fmt(Colors.lightRed),
+-            fmt(Colors.lightGreen),
+-            fmt(Colors.lightYellow),
+-            fmt(Colors.lightBlue),
+-            fmt(Colors.lightMagenta),
+-            fmt(Colors.lightCyan),
+-            fmt(Colors.overSurface)
+-        ];
++        const ansiColors = t.palette.slice(0, 8).map(fmt);
++        const brightColors = t.palette.slice(8, 16).map(fmt);
+ 
+         const lines = [
+             "[colors-dark]",
+@@ -48,7 +34,7 @@ QtObject {
+             `cursor=${cursorText} ${cursor}`,
+             `selection-foreground=${selectionForeground}`,
+             `selection-background=${selectionBackground}`,
+-            `urls=${fmt(Colors.primary)}`
++            `urls=${fmt(t.url)}`
+         ];
+ 
+         ansiColors.forEach((color, index) => lines.push(`regular${index}=${color}`));
+diff --git a/modules/theme/WezTermGenerator.qml b/modules/theme/WezTermGenerator.qml
+index 16ab0fffe1878d77197887d11b7a519a5bb651ca..2e14765fd86927595ad6c885b87fceb22a204aea 100644
+--- a/modules/theme/WezTermGenerator.qml
++++ b/modules/theme/WezTermGenerator.qml
+@@ -1,6 +1,7 @@
+ import QtQuick
+ import Quickshell
+ import Quickshell.Io
++import qs.modules.theme
+ 
+ QtObject {
+     id: root
+@@ -10,34 +11,19 @@ QtObject {
+             return;
+ 
+         const fmt = color => color.toString();
+-        const foreground = fmt(Colors.overSurface);
+-        const background = fmt(Colors.background);
+-        const cursor = fmt(Colors.overSurface);
+-        const cursorText = fmt(Colors.overSurfaceVariant);
+-        const selectionForeground = fmt(Colors.overSecondary);
+-        const selectionBackground = fmt(Colors.secondaryFixedDim);
++        // Colorbxst: background follows the "Background" variant and the
++        // ANSI palette comes from Colorbxst (editable, not inverted in light mode).
++        const t = Colorbxst.terminal();
++        const foreground = fmt(t.foreground);
++        const background = fmt(t.background);
++        const cursor = fmt(t.cursor);
++        const cursorText = fmt(t.cursorText);
++        const selectionForeground = fmt(t.selectionForeground);
++        const selectionBackground = fmt(t.selectionBackground);
+         const newline = String.fromCharCode(10);
+ 
+-        const ansiColors = [
+-            fmt(Colors.surfaceContainerLow),
+-            fmt(Colors.red),
+-            fmt(Colors.green),
+-            fmt(Colors.yellow),
+-            fmt(Colors.primary),
+-            fmt(Colors.magenta),
+-            fmt(Colors.cyan),
+-            fmt(Colors.outline)
+-        ];
+-        const brightColors = [
+-            fmt(Colors.surfaceBright),
+-            fmt(Colors.lightRed),
+-            fmt(Colors.lightGreen),
+-            fmt(Colors.lightYellow),
+-            fmt(Colors.lightBlue),
+-            fmt(Colors.lightMagenta),
+-            fmt(Colors.lightCyan),
+-            fmt(Colors.overSurface)
+-        ];
++        const ansiColors = t.palette.slice(0, 8).map(fmt);
++        const brightColors = t.palette.slice(8, 16).map(fmt);
+ 
+         const conf = [
+             "[colors]",

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0
+
+- Requires Ambxst 1.4.0 or later (use 0.7.0 on 1.3.15).
+- WezTerm (`~/.cache/ambxst/ambxst.toml`), Foot (`foot.ini`) and Alacritty (`alacritty.toml`), added in Ambxst 1.4.0, use the same colours as Ghostty and Kitty: background and opacity from the Background variant, text, cursor, selection, links and the 16 ANSI colours from Settings > Theme > Terminal.
+- Patches rebased on Ambxst 1.4.1 (the launcher patch no longer needs a three-way merge).
+
 ## 0.7.0
 
 - Presets: terminal colours moved to `~/.config/ambxst/config/colorbxst.json` (moved automatically from the 0.5.0 location) and **colorbxst** is listed with the other files when you create or update a preset. Loading a preset that contains it restores your terminal colours.

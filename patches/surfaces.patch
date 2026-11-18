@@ -1,8 +1,8 @@
 diff --git a/modules/theme/Colors.qml b/modules/theme/Colors.qml
-index 6803af8ddf8b2b2b9acca7b891e9ad9caa22ac80..b59f0e6d208ea29ec49464b9de0d216b4a5b25e0 100644
+index a02813e656229c1d44cce8f13f7eb58e48bd7e9b..00f5d58ee5c5341a55b4b649f3a47d8807647d8e 100644
 --- a/modules/theme/Colors.qml
 +++ b/modules/theme/Colors.qml
-@@ -180,8 +180,10 @@ FileView {
+@@ -195,8 +195,10 @@ FileView {
  
      property color background: Config.oledMode ? "#000000" : adapter.background
  
